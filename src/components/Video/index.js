@@ -11,7 +11,7 @@ const Video = forwardRef((props, videoRef) => {
     <Container>
         <h1>OLA MUNDO</h1>
 
-        <video playInline autoPlay muted ref={videoRef} {...props}/>
+        <video autoPlay muted ref={videoRef} {...props}/>
     </Container>
   );
 })
