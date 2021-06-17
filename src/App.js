@@ -1,19 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { io } from "socket.io-client";
 import './App.css';
 import Video from './components/Video';
+import Button from '@material-ui/core/Button';
 import Classes from './components/Classes'; 
-import { Box } from './styles';
+import { Box, Container } from './styles';
 
 
 
-let socket;
+const socket = io("https://d6a54e56f284.ngrok.io", {transports: ['websocket']});
 
 function App() {
   const videoRef = useRef(null);
   const [text, setText] = useState("");
-  let { id } = useParams();
+  const { id } = useParams();
+  const {search} = useLocation();
+  const query = new URLSearchParams(search);
+  const paramField = query.get('admin');
+
+  const [type, setType] = useState('text');
+
 
   useEffect(() => {
     const getMediaDevices = async () => {
@@ -28,7 +35,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-     socket = io("https://d6a54e56f284.ngrok.io", {transports: ['websocket']});
+
   }, [])
 
   function handleJoinRoom() {
@@ -48,12 +55,15 @@ function App() {
     });
 
     socket.on(id, (data) => { 
-      console.log("OPAAA2", data)
       setText(data);
     });
 
+    socket.on("activities", (data) => {
+      setType(data)
+    });
+
     socket.on('disconnect', () => {
-      alert("OPAAA")
+      // alert("OPAAA")
     });
   }, [id])
   
@@ -66,15 +76,17 @@ function App() {
     <div className="App">
 
       <header className="App-header">
-          <Video ref={videoRef} />
+        <Container>
+            <Video ref={videoRef} />
 
-          <Box>
-             <span>Sala: {text}</span> 
-            <button onClick={handleJoinRoom}>Logar</button>
+            <Box>
+              <span>Sala: {text}</span> 
+              <Button color="primary" variant="contained" onClick={handleJoinRoom}>Logar</Button>
 
-            <button onClick={handleFinishingClass}>Finalizar Aula</button>
-          </Box>
-          <Classes />
+              <Button color="primary" variant="contained" onClick={handleFinishingClass}>Finalizar Aula</Button>
+            </Box>
+            <Classes socket={socket} type={type} setType={setType} admin={paramField === "on"} room={id}/>
+          </Container>
       </header>
     </div>
   );
