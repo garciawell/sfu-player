@@ -98,7 +98,7 @@ function App() {
 
             <Box>
               <span>Sala: {text}</span> 
-              <Button color="primary" variant="contained" onClick={handleJoinRoom}>Logar</Button>
+              {/* <Button color="primary" variant="contained" onClick={handleJoinRoom}>Logar</Button> */}
               <Button color="primary" variant="contained" onClick={startScreen}>Screen</Button>
 
               <Button color="primary" variant="contained" onClick={handleFinishingClass}>Finalizar Aula</Button>
