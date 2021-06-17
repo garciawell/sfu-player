@@ -5,7 +5,7 @@ import './App.css';
 import Video from './components/Video';
 import Button from '@material-ui/core/Button';
 import Classes from './components/Classes'; 
-import { Box, Container } from './styles';
+import { Box, Container, ContainerScreen } from './styles';
 
 
 
@@ -91,9 +91,10 @@ function App() {
 
       <header className="App-header">
         <Container>
-            <Video ref={videoRef} text={'Hydra'} show />
-            
-            <Video ref={videoScreen} text={'Screen'} show={share}/>
+            <ContainerScreen shared={share}>
+              <Video ref={videoScreen} text={'Screen'} show={share}/>
+              <Video ref={videoRef} text={'Hydra'} show />
+            </ContainerScreen>
 
             <Box>
               <span>Sala: {text}</span> 
