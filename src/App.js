@@ -15,6 +15,7 @@ function App() {
   const videoRef = useRef(null);
   const videoScreen = useRef(null);
   const [text, setText] = useState("");
+  const [share, setShare] = useState(false);
   const { id } = useParams();
   const {search} = useLocation();
   const query = new URLSearchParams(search);
@@ -46,6 +47,8 @@ function App() {
   async function startScreen() {
     const localStream = await navigator.mediaDevices.getDisplayMedia();
     videoScreen.current.srcObject = localStream
+    localStream.getVideoTracks()[0].addEventListener('ended', () => setShare(false))
+    setShare(true)
   }
   
 
@@ -72,18 +75,26 @@ function App() {
       // alert("OPAAA")
     });
   }, [id])
+
+  useEffect(() => {
+
+  }, [])
   
 
   function handleFinishingClass() {
     socket.disconnect("OPA");
   }
+
+
   return (
     <div className="App">
 
       <header className="App-header">
         <Container>
-            <Video ref={videoRef} text={'Hydra'}/>
-            <Video ref={videoScreen} text={'Screen'} />
+            <Video ref={videoRef} text={'Hydra'} show />
+            
+            <Video ref={videoScreen} text={'Screen'} show={share}/>
+
             <Box>
               <span>Sala: {text}</span> 
               <Button color="primary" variant="contained" onClick={handleJoinRoom}>Logar</Button>
