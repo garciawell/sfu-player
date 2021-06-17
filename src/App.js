@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { io } from "socket.io-client";
 import './App.css';
 import Video from './components/Video';
-import { io } from "socket.io-client";
-import { joinRoom } from "./socket";
-import { useParams } from 'react-router-dom';
+import Classes from './components/Classes'; 
+import { Box } from './styles';
 
 
 
@@ -27,7 +28,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-     socket = io("http://localhost:3333", {transports: ['websocket']});
+     socket = io("https://d6a54e56f284.ngrok.io", {transports: ['websocket']});
   }, [])
 
   function handleJoinRoom() {
@@ -38,9 +39,6 @@ function App() {
   useEffect(() => {
     socket.on('connection', (socket) => {
       console.log('a user connected');
-      socket.on('disconnect', () => {
-        console.log('user disconnected');
-      });
     });
 
     socket.emit('create', id);
@@ -53,16 +51,30 @@ function App() {
       console.log("OPAAA2", data)
       setText(data);
     });
+
+    socket.on('disconnect', () => {
+      alert("OPAAA")
+    });
   }, [id])
   
+
+  function handleFinishingClass() {
+    socket.disconnect("OPA");
+  }
   
   return (
     <div className="App">
 
       <header className="App-header">
           <Video ref={videoRef} />
-          OPS: {text}
-          <button onClick={handleJoinRoom}>Logar</button>
+
+          <Box>
+             <span>Sala: {text}</span> 
+            <button onClick={handleJoinRoom}>Logar</button>
+
+            <button onClick={handleFinishingClass}>Finalizar Aula</button>
+          </Box>
+          <Classes />
       </header>
     </div>
   );
