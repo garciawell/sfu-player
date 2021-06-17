@@ -9,10 +9,11 @@ import { Box, Container } from './styles';
 
 
 
-const socket = io("https://d6a54e56f284.ngrok.io", {transports: ['websocket']});
+const socket = io("http://localhost:3333", {transports: ['websocket']});
 
 function App() {
   const videoRef = useRef(null);
+  const videoScreen = useRef(null);
   const [text, setText] = useState("");
   const { id } = useParams();
   const {search} = useLocation();
@@ -40,6 +41,11 @@ function App() {
 
   function handleJoinRoom() {
     socket.emit('create', id);
+  }
+
+  async function startScreen() {
+    const localStream = await navigator.mediaDevices.getDisplayMedia();
+    videoScreen.current.srcObject = localStream
   }
   
 
@@ -71,17 +77,17 @@ function App() {
   function handleFinishingClass() {
     socket.disconnect("OPA");
   }
-  
   return (
     <div className="App">
 
       <header className="App-header">
         <Container>
-            <Video ref={videoRef} />
-
+            <Video ref={videoRef} text={'Can'}/>
+            <Video ref={videoScreen} text={'Screen'} />
             <Box>
               <span>Sala: {text}</span> 
               <Button color="primary" variant="contained" onClick={handleJoinRoom}>Logar</Button>
+              <Button color="primary" variant="contained" onClick={startScreen}>Screen</Button>
 
               <Button color="primary" variant="contained" onClick={handleFinishingClass}>Finalizar Aula</Button>
             </Box>
