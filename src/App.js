@@ -9,7 +9,7 @@ import { Box, Container } from './styles';
 
 
 
-const socket = io("https://d6a54e56f284.ngrok.io", {transports: ['websocket']});
+const socket = io("https://2686ac550eeb.ngrok.io", {transports: ['websocket']});
 
 function App() {
   const videoRef = useRef(null);
@@ -81,7 +81,7 @@ function App() {
 
             <Box>
               <span>Sala: {text}</span> 
-              <Button color="primary" variant="contained" onClick={handleJoinRoom}>Logar</Button>
+              {/* <Button color="primary" variant="contained" onClick={handleJoinRoom}>Logar</Button> */}
 
               <Button color="primary" variant="contained" onClick={handleFinishingClass}>Finalizar Aula</Button>
             </Box>
