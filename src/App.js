@@ -9,7 +9,7 @@ import { Box, Container } from './styles';
 
 
 
-const socket = io("http://localhost:3333", {transports: ['websocket']});
+const socket = io("https://2686ac550eeb.ngrok.io", {transports: ['websocket']});
 
 function App() {
   const videoRef = useRef(null);
@@ -82,7 +82,7 @@ function App() {
 
       <header className="App-header">
         <Container>
-            <Video ref={videoRef} text={'Can'}/>
+            <Video ref={videoRef} text={'Hydra'}/>
             <Video ref={videoScreen} text={'Screen'} />
             <Box>
               <span>Sala: {text}</span> 
