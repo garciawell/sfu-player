@@ -7,4 +7,8 @@ export const Container = styled.div`
         padding: 5px 15px;
         margin-bottom: 15px;
     }
+
+    .paper {
+        padding: 50px;
+    }
 `;

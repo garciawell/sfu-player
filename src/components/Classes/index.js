@@ -31,7 +31,7 @@ function Classes({ socket, type, setType, admin, room }) {
           value={type}
           onChange={handleChange}
         >
-          <MenuItem value="text">Texto</MenuItem>
+          <MenuItem value="text">Atividade 01</MenuItem>
           <MenuItem value='video'>Video</MenuItem>
           <MenuItem value="activity">Atividades</MenuItem>
           <MenuItem value="drive">Drive</MenuItem>
