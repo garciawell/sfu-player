@@ -1,20 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-import { io } from "socket.io-client";
-import { Device } from "mediasoup-client";
-import './App.css';
-import Video from './components/Video';
 import Button from '@material-ui/core/Button';
-import Classes from './components/Classes'; 
-import { Box, Container, ContainerScreen } from './styles';
-import { RoomClient, TYPE_CHANGE_USER } from './socket/RoomClient';
 import IconButton from '@material-ui/core/IconButton';
-import MicOffIcon from '@material-ui/icons/MicOff';
 import Mic from '@material-ui/icons/Mic';
+import MicOffIcon from '@material-ui/icons/MicOff';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
+import { Device } from "mediasoup-client";
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { io } from "socket.io-client";
+import './App.css';
+import Classes from './components/Classes';
+import Video from './components/Video';
+import { RoomClient, TYPE_CHANGE_USER } from './socket/RoomClient';
+import { Box, Container, ContainerScreen } from './styles';
 
-const socket = io("http://localhost:3016", {
+const socket = io("https://hydra-server-garcia.herokuapp.com", {
     transports: ["websocket", "polling"]
 });
 
@@ -41,7 +41,7 @@ function App() {
 
 
   const loginSuccess = () => {
-    console.log("LOGIN SUCCESS")
+    console.log("LOGIN SUCCESS", users)
   }
 
 
@@ -110,6 +110,7 @@ function App() {
         }
     }
   }
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [rc]);
 
 
@@ -175,6 +176,7 @@ function App() {
     socket.on('disconnect', () => {
       // alert("OPAAA")
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   useEffect(() => {
@@ -212,6 +214,7 @@ function App() {
       if (!rc) return;
       console.log("users", rc.getUsers())
       addListeners();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rc]);
 
   

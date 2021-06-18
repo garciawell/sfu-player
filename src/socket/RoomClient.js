@@ -336,7 +336,6 @@ class RoomClient {
                 break;
             default:
                 return
-                break;
         }
         if (this.device && !this.device.canProduce('video') && !audio) {
             console.error('cannot produce video');
@@ -387,7 +386,7 @@ class RoomClient {
 
             let elem
             console.log(this.localMediaEl.childNodes);
-            if (!audio && this.localMediaEl.childNodes.length == 0) {
+            if (!audio && this.localMediaEl.childNodes.length === 0) {
                 elem = document.createElement('video')
                 elem.srcObject = stream
                 elem.id = producer.id
@@ -443,7 +442,7 @@ class RoomClient {
                     break;
                 default:
                     return
-                    break;
+                    // break;
             }
         } catch (err) {
             console.log(err)
@@ -563,7 +562,7 @@ class RoomClient {
                 break;
             default:
                 return
-                break;
+                // break;
         }
 
     }
