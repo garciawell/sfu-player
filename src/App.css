@@ -36,6 +36,7 @@ code {
   align-items: center;
   justify-content: center;
   color: white;
+  padding: 50px;
 }
 
 .App-link {

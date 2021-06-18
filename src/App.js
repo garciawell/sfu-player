@@ -226,6 +226,7 @@ function App() {
 
       <header className="App-header">
         <Container>
+          <h1>Hydra</h1>
             <ContainerScreen shared={share}>
               {/* <Video ref={localScreen} text={'Screen'} show={share}/>
               <Video ref={remoteScreen} text={'Screen'} show={share}/> */}
