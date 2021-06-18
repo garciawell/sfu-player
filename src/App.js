@@ -150,9 +150,8 @@ function App() {
   }
 
 
-  async function startScreen(list) {
-    const localStream = await rc?.produce(RoomClient.mediaType.screen);
-    localRef.current.srcObject = localStream
+  async function startScreen() {
+   await rc?.produce(RoomClient.mediaType.screen);
     setScreen(!screen)
     setShare(true)
   }
@@ -221,7 +220,7 @@ function App() {
     socket.disconnect("OPA");
   }
 
-  
+
   return (
     <div className="App">
 
@@ -245,7 +244,7 @@ function App() {
             <Box>
               <span>Sala: {text}</span> 
               {/* <Button color="primary" variant="contained" onClick={handleJoinRoom}>Logar</Button> */}
-              <Button color="primary" variant="contained" onClick={() => startScreen(videoDevices)}>Screen</Button>
+              <Button color="primary" variant="contained" onClick={startScreen}>Screen</Button>
 
               <Button color="primary" variant="contained" onClick={handleFinishingClass}>Finalizar Aula</Button>
             </Box>
