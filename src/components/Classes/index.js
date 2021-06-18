@@ -8,11 +8,11 @@ import Class3 from "./Class3"
 import Integration from "./Integration"
 
 export const typesClass = {
-    text: <Class1 />,
-    video: <Class2 />,
-    activity: <Class3 />,
+    act1: <Class1 />,
+    act2: <Class2 />,
+    act3: <Class3 />,
     drive: <Integration url="https://docs.google.com/document/d/1VPvu0iaqbYEE1tFfjk-20zJetkb0UljJR5s-wPwLycw/edit" />,
-    miro: <Integration url="https://miro.com/app/live-embed/o9J_l-_dh14=/?moveToViewport=-1371,-1347,4106,2035" />,
+    // miro: <Integration url="https://miro.com/app/live-embed/o9J_l-_dh14=/?moveToViewport=-1371,-1347,4106,2035" />,
 }
 
 function Classes({ socket, type, setType, admin, room }) {
@@ -31,11 +31,11 @@ function Classes({ socket, type, setType, admin, room }) {
           value={type}
           onChange={handleChange}
         >
-          <MenuItem value="text">Atividade 01</MenuItem>
-          <MenuItem value='video'>Video</MenuItem>
-          <MenuItem value="activity">Atividades</MenuItem>
+          <MenuItem value="act1">Atividade 01</MenuItem>
+          <MenuItem value='act2'>Atividade 02</MenuItem>
+          <MenuItem value="act3">Atividade 03</MenuItem>
           <MenuItem value="drive">Drive</MenuItem>
-          <MenuItem value="miro">Miro</MenuItem>
+          {/* <MenuItem value="miro">Miro</MenuItem> */}
         </Select>
       }     
 
