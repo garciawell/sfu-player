@@ -66,3 +66,9 @@ button {
   border: none;
   cursor: pointer;
 }
+
+.remote-video {
+  overflow: auto;
+  max-height: 504px;
+}
+

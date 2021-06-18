@@ -8,8 +8,11 @@ import Button from '@material-ui/core/Button';
 import Classes from './components/Classes'; 
 import { Box, Container, ContainerScreen } from './styles';
 import { RoomClient, TYPE_CHANGE_USER } from './socket/RoomClient';
-
-
+import IconButton from '@material-ui/core/IconButton';
+import MicOffIcon from '@material-ui/icons/MicOff';
+import Mic from '@material-ui/icons/Mic';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 
 const socket = io("http://localhost:3016", {
     transports: ["websocket", "polling"]
@@ -74,7 +77,6 @@ function App() {
 
             setTimeout(() => {
               openCamera(vds);
-              openAudio(ads);
             }, 300);
         })
     } catch (error) {
@@ -129,7 +131,6 @@ function App() {
   }
 
   const openAudio = (list) => {
-    console.log("video", audio);
     if (audio) {
         console.log("close vd", audio);
         rc?.closeProducer(RoomClient.mediaType.audio);
@@ -200,15 +201,15 @@ function App() {
     })
     rc.on(RoomClient.EVENTS.exitRoom, () => {
     })
-}
+  }
 
 
 
   useEffect(() => {
-    if (!rc) return;
-    console.log("users", rc.getUsers())
-    addListeners();
-}, [rc]);
+      if (!rc) return;
+      console.log("users", rc.getUsers())
+      addListeners();
+  }, [rc]);
 
   
 
@@ -216,7 +217,7 @@ function App() {
     socket.disconnect("OPA");
   }
 
-  console.log("videoDevices", videoDevices)
+
   return (
     <div className="App">
 
@@ -227,6 +228,14 @@ function App() {
               <Video className="local-video" ref={localRef} text={'Hydra'} show />
               <Video className="remote-video" ref={remoteRef} text={'remoto'} show />
             </ContainerScreen>
+
+            <IconButton color="secondary" className="icon-button" onClick={() => openCamera(audioDevices)}>
+              {video ? <VideocamIcon /> : <VideocamOffIcon />}
+            </IconButton>
+
+            <IconButton color="secondary" className="icon-button" onClick={() => openAudio(audioDevices)}>
+              {audio ? <Mic /> : <MicOffIcon />}
+            </IconButton>
 
             <Box>
               <span>Sala: {text}</span> 
