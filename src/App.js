@@ -21,7 +21,7 @@ const socket = io("http://localhost:3016", {
 function App() {
   const localRef = useRef(null);
   const remoteRef = useRef(null);
-  const videoScreen = useRef(null);
+
   const [rc, setRc] = useState();
   const [text, setText] = useState("");
   const [share, setShare] = useState(false);
@@ -30,6 +30,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const query = new URLSearchParams(search);
   const paramField = query.get('admin');
+  const userName = query.get('name');
 
   ///ESTATES
   const [audioDevices, setAudioDevices] = useState([]);
@@ -123,11 +124,14 @@ function App() {
         return;
     }
     setVideo(true);
-    if (list) {
-        rc?.produce(RoomClient.mediaType.video, list[0].value);
-        return;
+    if (list.length) {
+      rc?.produce(RoomClient.mediaType.video, list[0].value);
+      return;
+    }else if(videoDevices.length) {
+      rc?.produce(RoomClient.mediaType.video, videoDevices[0].value);
+      return 
     }
-    rc?.produce(RoomClient.mediaType.video, videoDevices[0].value);
+    setVideo(false);
   }
 
   const openAudio = (list) => {
@@ -146,10 +150,10 @@ function App() {
   }
 
 
-  async function startScreen() {
-    const localStream = await navigator.mediaDevices.getDisplayMedia();
-    videoScreen.current.srcObject = localStream
-    localStream.getVideoTracks()[0].addEventListener('ended', () => setShare(false))
+  async function startScreen(list) {
+    const localStream = await rc?.produce(RoomClient.mediaType.screen);
+    localRef.current.srcObject = localStream
+    setScreen(!screen)
     setShare(true)
   }
   
@@ -159,7 +163,7 @@ function App() {
       console.log('a user connected');
     });
 
-    joinRoom("wellington", id)
+    joinRoom(userName? userName :"wellington", id)
 
     socket.on(id, (data) => { 
       setText(data);
@@ -217,19 +221,20 @@ function App() {
     socket.disconnect("OPA");
   }
 
-
+  
   return (
     <div className="App">
 
       <header className="App-header">
         <Container>
             <ContainerScreen shared={share}>
-              {/* <Video ref={videoScreen} text={'Screen'} show={share}/> */}
+              {/* <Video ref={localScreen} text={'Screen'} show={share}/>
+              <Video ref={remoteScreen} text={'Screen'} show={share}/> */}
               <Video className="local-video" ref={localRef} text={'Hydra'} show />
               <Video className="remote-video" ref={remoteRef} text={'remoto'} show />
             </ContainerScreen>
 
-            <IconButton color="secondary" className="icon-button" onClick={() => openCamera(audioDevices)}>
+            <IconButton color="secondary" className="icon-button" onClick={() => openCamera(videoDevices)}>
               {video ? <VideocamIcon /> : <VideocamOffIcon />}
             </IconButton>
 
@@ -240,7 +245,7 @@ function App() {
             <Box>
               <span>Sala: {text}</span> 
               {/* <Button color="primary" variant="contained" onClick={handleJoinRoom}>Logar</Button> */}
-              <Button color="primary" variant="contained" onClick={startScreen}>Screen</Button>
+              <Button color="primary" variant="contained" onClick={() => startScreen(videoDevices)}>Screen</Button>
 
               <Button color="primary" variant="contained" onClick={handleFinishingClass}>Finalizar Aula</Button>
             </Box>
