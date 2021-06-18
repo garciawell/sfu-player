@@ -71,8 +71,11 @@ function App() {
             });
             setAudioDevices(ads);
             setVideoDevices(vds);
-            openCamera(vds);
-            openAudio(ads);
+
+            setTimeout(() => {
+              openCamera(vds);
+              openAudio(ads);
+            }, 300);
         })
     } catch (error) {
         alert("No device or no permission use device");
