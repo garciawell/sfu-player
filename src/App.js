@@ -185,7 +185,7 @@ function App() {
     if(rc && !!videoDevices[0]) {
       setTimeout(() => {
         rc?.produce(RoomClient.mediaType.video, videoDevices[0].value);
-      }, 1000);
+      }, 3000);
     }
   }, [rc, videoDevices])
 
