@@ -7,16 +7,17 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import { Device } from "mediasoup-client";
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { io } from "socket.io-client";
+import io from "socket.io-client";
 import './App.css';
 import Classes from './components/Classes';
 import Video from './components/Video';
 import { RoomClient, TYPE_CHANGE_USER } from './socket/RoomClient';
 import { Box, Container, ContainerScreen } from './styles';
 
-const socket = io("https://hydra-server-garcia.herokuapp.com", {
-    transports: ["websocket", "polling"]
+const socket = io('http://18.231.179.64:3016', { 
+  transports: ['websocket', 'polling'],
 });
+
 
 function App() {
   const localRef = useRef(null);
