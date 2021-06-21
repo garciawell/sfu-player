@@ -14,7 +14,7 @@ import Video from './components/Video';
 import { RoomClient, TYPE_CHANGE_USER } from './socket/RoomClient';
 import { Box, Container, ContainerScreen } from './styles';
 
-const socket = io('https://18.217.182.229:3016/', { 
+const socket = io('wss://18.217.182.229:3016', { 
   transports: ['websocket', 'polling'],
 });
 
