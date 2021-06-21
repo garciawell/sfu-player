@@ -4,7 +4,7 @@ import Mic from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
-import { Device } from "mediasoup-client";
+import { Device,  } from "mediasoup-client";
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import io from "socket.io-client";
@@ -76,10 +76,6 @@ function App() {
             });
             setAudioDevices(ads);
             setVideoDevices(vds);
-
-            setTimeout(() => {
-              openCamera(vds);
-            }, 300);
         })
     } catch (error) {
         alert("No device or no permission use device");
@@ -87,8 +83,8 @@ function App() {
     if (!rc) return;
     rc.localMediaEl = localRef.current;
     rc.remoteVideoEl = remoteRef.current;
+
     rc.onChangeUser = (data, type) => {
-        
         const userCollection = data?.users || [];
         // console.log("chage",    userCollection);
 
@@ -113,7 +109,6 @@ function App() {
   }
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [rc]);
-
 
 
   const openCamera = (list) => {
@@ -186,6 +181,14 @@ function App() {
     })
   }, [])
 
+  useEffect(() => {
+    if(rc && !!videoDevices[0]) {
+      setTimeout(() => {
+        rc?.produce(RoomClient.mediaType.video, videoDevices[0].value);
+      }, 1000);
+    }
+  }, [rc, videoDevices])
+
 
   const addListeners = () => {
     if (!rc) return;
@@ -198,10 +201,14 @@ function App() {
     rc.on(RoomClient.EVENTS.stopAudio, () => {
     })
     rc.on(RoomClient.EVENTS.startAudio, () => {
+    })    
+    
+    rc.on(RoomClient.EVENTS.openRoom, () => {
+      console.log("OPEN ROOM")
     })
 
     rc.on(RoomClient.EVENTS.startVideo, () => {
-        console.log("start");
+      console.log("START VIDEO")
     })
     rc.on(RoomClient.EVENTS.stopVideo, () => {
     })
